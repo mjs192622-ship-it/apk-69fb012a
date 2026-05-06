@@ -1,0 +1,88 @@
+name: Build APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Apply custom app icon
+      env:
+        ICON_DATA: "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"
+      run: |
+        echo "$ICON_DATA" | base64 -d > /tmp/app_icon
+        for entry in mdpi:48 hdpi:72 xhdpi:96 xxhdpi:144 xxxhdpi:192; do
+          dir="${entry%%:*}"
+          size="${entry##*:}"
+          mkdir -p "app/src/main/res/mipmap-$dir"
+          convert -resize ${size}x${size}! /tmp/app_icon "app/src/main/res/mipmap-$dir/ic_launcher.png" 2>/dev/null || cp /tmp/app_icon "app/src/main/res/mipmap-$dir/ic_launcher.png"
+          cp "app/src/main/res/mipmap-$dir/ic_launcher.png" "app/src/main/res/mipmap-$dir/ic_launcher_round.png" 2>/dev/null || true
+        done
+
+    - name: Generate placeholder launcher icons if missing
+      run: |
+        for dir in app/src/main/res/mipmap-mdpi app/src/main/res/mipmap-hdpi app/src/main/res/mipmap-xhdpi app/src/main/res/mipmap-xxhdpi app/src/main/res/mipmap-xxxhdpi; do
+          mkdir -p $dir
+          if [ ! -f "$dir/ic_launcher.png" ]; then
+            convert -size 192x192 xc:#6366f1 -fill white -font DejaVu-Sans -pointsize 80 -gravity center -annotate 0 'W' "$dir/ic_launcher.png" 2>/dev/null || \
+            python3 -c "import struct,zlib; data=struct.pack('>IHHI',1,192,192,0); open('$dir/ic_launcher.png','wb').write(b'\x89PNG\r\n\x1a\n'+struct.pack('>I',13)+b'IHDR'+struct.pack('>IIBBBBB',192,192,8,2,0,0,0)+struct.pack('>I',zlib.crc32(b'IHDR'+struct.pack('>IIBBBBB',192,192,8,2,0,0,0))&0xffffffff)+b'\x00'*100)"
+            cp "$dir/ic_launcher.png" "$dir/ic_launcher_round.png" 2>/dev/null || true
+          fi
+        done
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v4
+      with:
+        gradle-version: '8.11.1'
+
+    - name: Build Debug APK
+      run: gradle assembleDebug --no-daemon
+
+    - name: Build Release AAB (for Play Store)
+      run: gradle bundleRelease --no-daemon
+      continue-on-error: true
+
+    - name: Upload Debug APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: debug-apk
+        path: app/build/outputs/apk/debug/*.apk
+
+    - name: Upload Release AAB
+      uses: actions/upload-artifact@v4
+      if: success()
+      continue-on-error: true
+      with:
+        name: release-aab
+        path: app/build/outputs/bundle/release/*.aab
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v2
+      if: success()
+      with:
+        tag_name: build-${{ github.run_number }}
+        name: Build #${{ github.run_number }}
+        files: |
+          app/build/outputs/apk/debug/*.apk
+          app/build/outputs/bundle/release/*.aab
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
